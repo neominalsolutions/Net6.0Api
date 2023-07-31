@@ -1,8 +1,10 @@
 using Articles.Application.Dtos;
 using Articles.Application.Features.Article.Create;
 using Articles.Domain.Repositories;
-using Articles.Infra;
+using Articles.Infra.EF.Contexts;
+using Articles.Infra.EF.Repositories;
 using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 using Net6._0Api.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +19,7 @@ builder.Services.AddControllers()
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+builder.Services.AddScoped<IArticleRepository, EFArticleRepository>();
 builder.Services.AddTransient<LocalException>();
 
 builder.Services.AddMediatR(opt =>
@@ -25,6 +27,11 @@ builder.Services.AddMediatR(opt =>
   // doðru bir katman seçebilmek için refrection assembly load ettik.
   opt.RegisterServicesFromAssemblyContaining<ArticleCreateDto>();
 
+});
+
+builder.Services.AddDbContext<AppDbContext>(opt =>
+{
+  opt.UseSqlServer(builder.Configuration.GetConnectionString("Conn"));
 });
 
 

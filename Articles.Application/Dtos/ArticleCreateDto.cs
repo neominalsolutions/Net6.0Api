@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Articles.Application.Dtos
 {
-    public class ArticleCreateDto:IRequest
+    public class ArticleCreateDto:IRequest<string>
     {
         [JsonPropertyName("title")]
         [Required(ErrorMessage ="Title boş geçilemez")]

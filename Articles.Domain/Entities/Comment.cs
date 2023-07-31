@@ -9,13 +9,7 @@ namespace Articles.Domain.Entities
 {
   public class Comment:ChildEntity<string>
   {
-    private List<CommentDetail> _commentDetails = new List<CommentDetail>();
-    public IReadOnlyList<CommentDetail> Details => _commentDetails;
-
-    public void AddCommentDetail()
-    {
-
-    }
+   
 
   }
 }

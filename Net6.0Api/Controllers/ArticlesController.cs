@@ -3,6 +3,7 @@ using Articles.Application.Articles;
 using Articles.Application.Dtos;
 using Articles.Domain.Entities;
 using Articles.Infra;
+using Articles.Infra.EF.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -52,15 +53,17 @@ namespace Net6._0Api.Controllers
 
       // db atıp kayıt.
 
-      await this.mediator.Send(dto);
+      var entityId = await this.mediator.Send(dto);
 
       //var service = new ArticleCreateService(new ArticleRepository());
       //service.Create(dto);
 
+      //var repo = new EFArticleRepository(new Articles.Infra.EF.Contexts.AppDbContext());
+      //repo.up
      
 
 
-      return StatusCode(StatusCodes.Status201Created, dto);
+      return StatusCode(StatusCodes.Status201Created, entityId);
       // return Created()
     }
 

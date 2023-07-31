@@ -10,10 +10,10 @@ using Articles.Domain.Entities;
 
 namespace Articles.Application
 {
-  public class ArticleCreateHandler : IRequestHandler<ArticleCreateDto>
+  public class ArticleCreateHandler : IRequestHandler<ArticleCreateDto, string>
   {
     // Validation Web Api isteğini keser. 400 Bad Request
-    public Task Handle(ArticleCreateDto request, CancellationToken cancellationToken)
+    public async Task<string> Handle(ArticleCreateDto request, CancellationToken cancellationToken)
     {
       // dto create update gibi işlemlerde entity olarak programcı tarafından kontrolü bir şekilde maplenir. auto mapper kullanmayız
       // veri tabanından veri okurken ise auto mapper kullanacağız.
@@ -22,8 +22,7 @@ namespace Articles.Application
       article.SetDescription(request.Title);
       article.SetName(request.Title);
 
-      // kod blogunun çalışacağı kısım.
-      throw new NotImplementedException();
+      return await Task.FromResult(article.Id);
     }
   }
 }
