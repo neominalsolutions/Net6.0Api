@@ -1,5 +1,6 @@
 using Articles.Application.Dtos;
 using Articles.Application.Features.Article.Create;
+using Articles.Core.EF;
 using Articles.Domain.Repositories;
 using Articles.Infra.EF.Contexts;
 using Articles.Infra.EF.Repositories;
@@ -19,7 +20,6 @@ builder.Services.AddControllers()
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IArticleRepository, EFArticleRepository>();
 builder.Services.AddTransient<LocalException>();
 
 builder.Services.AddMediatR(opt =>
@@ -29,14 +29,23 @@ builder.Services.AddMediatR(opt =>
 
 });
 
+//builder.Services.AddSingleton<AppDbContext>();
+
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
   opt.UseSqlServer(builder.Configuration.GetConnectionString("Conn"));
 });
 
 
+// Persistance ayarlarý
+builder.Services.AddScoped<IUnitOfWork, EFUnitOfWork<AppDbContext>>();
+builder.Services.AddScoped<IArticleRepository, EFArticleRepository>();
+
+
 // middlewares
 var app = builder.Build();
+
+
 
 app.UseMiddleware<LocalException>();
 

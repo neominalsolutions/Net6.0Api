@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Dapper\" />
     <Folder Include="EF\Migrations\" />
-    <Folder Include="EF\Repositories\" />
     <Folder Include="Redis\" />
   </ItemGroup>
 
