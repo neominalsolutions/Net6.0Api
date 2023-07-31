@@ -3,8 +3,10 @@ using Articles.Application.Articles;
 using Articles.Application.Dtos;
 using Articles.Domain.Entities;
 using Articles.Infra;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
 
 namespace Net6._0Api.Controllers
@@ -13,6 +15,14 @@ namespace Net6._0Api.Controllers
   [ApiController]
   public class ArticlesController : ControllerBase
   {
+    private readonly IMediator mediator;
+
+    public ArticlesController(IMediator mediator)
+    {
+      this.mediator = mediator;
+    }
+
+
 
     // api/articles (GET)
 
@@ -33,7 +43,7 @@ namespace Net6._0Api.Controllers
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] ArticleCreateDto dto)
+    public async Task<IActionResult> Post([FromBody] ArticleCreateDto dto)
     {
 
 
@@ -42,8 +52,10 @@ namespace Net6._0Api.Controllers
 
       // db atıp kayıt.
 
-      var service = new ArticleCreateService(new ArticleRepository());
-      service.Create(dto);
+      await this.mediator.Send(dto);
+
+      //var service = new ArticleCreateService(new ArticleRepository());
+      //service.Create(dto);
 
      
 

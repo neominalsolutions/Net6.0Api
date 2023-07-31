@@ -1,9 +1,11 @@
 ﻿
 using Articles.Core.Domain;
+using Articles.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Articles.Domain.Entities
@@ -35,8 +37,12 @@ namespace Articles.Domain.Entities
 
     public void SetName(string name)
     {
-      if (name is null)
-        throw new Exception("Makale entity ismi boş geçilmiş");
+      if (name.Contains("0"))
+      {
+        //throw new Exception("Makale entity ismi boş geçilmiş");
+        throw new ContainsDigitException();
+      }
+        
 
       this.Name = name.Trim();
 
