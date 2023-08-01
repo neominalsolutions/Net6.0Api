@@ -1,4 +1,5 @@
 ﻿using Articles.Core.JWT;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Net6._0Api.Dtos;
@@ -20,6 +21,7 @@ namespace Net6._0Api.Controllers
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public IActionResult GenerateToken([FromBody] TokenRequestDto dto)
     {
       if (!ModelState.IsValid)

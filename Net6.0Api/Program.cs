@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Net6._0Api.Attributes;
 using Net6._0Api.Exceptions;
 using System.Text;
 
@@ -19,15 +20,25 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers()
+builder.Services.AddControllers( opt =>
+{
+  opt.Filters.Add(new PermissionFilterAttribute());
+  // bütün uygulama genelinde istekler filtrelenmiþ oluyorç
+})
   .AddFluentValidation(opt =>
 {
   opt.RegisterValidatorsFromAssemblyContaining<ArticleCreateValidator>();
 });
+
+// seviside ayaða kaldýrmayý unutmayalým.
+builder.Services.AddScoped<PermissionFilterAttribute>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<LocalException>();
+
+
 
 // reflection ile application libden referanse al
 builder.Services.AddAutoMapper(typeof(ArticleMapping));
@@ -81,6 +92,9 @@ builder.Services.AddAuthorization(opt =>
     policy.RequireClaim("Age", "18","19","20");
   });
 });
+
+
+
 
 
 builder.Services.AddScoped<IJwtService, MicrosoftJwtBearerService>();

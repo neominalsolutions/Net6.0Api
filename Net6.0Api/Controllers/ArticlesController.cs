@@ -49,6 +49,8 @@ namespace Net6._0Api.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "OnlyAdminPolicy")]
     public IActionResult Get(int id)
     {
+
+
       return StatusCode(StatusCodes.Status200OK,new {id = 1});
     }
 
