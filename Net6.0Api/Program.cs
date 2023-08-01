@@ -5,9 +5,11 @@ using Articles.Core.EF;
 using Articles.Core.JWT;
 using Articles.Domain.Repositories;
 using Articles.Infra.EF.Contexts;
+using Articles.Infra.EF.Identity;
 using Articles.Infra.EF.Repositories;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,13 +24,28 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers( opt =>
 {
-  opt.Filters.Add(new PermissionFilterAttribute());
+  //opt.Filters.Add(new PermissionFilterAttribute());
   // bütün uygulama genelinde istekler filtrelenmiþ oluyorç
 })
   .AddFluentValidation(opt =>
 {
   opt.RegisterValidatorsFromAssemblyContaining<ArticleCreateValidator>();
 });
+
+// Identity Ayarlarý
+builder.Services.AddDbContext<AppIdentityDbContext>(opt =>
+{
+  opt.UseSqlServer(builder.Configuration.GetConnectionString("Conn"));
+}
+  );
+
+// Uygulama IdentityYapýsýný kullansýn
+builder.Services.AddIdentity<AppUser, AppRole>(opt =>
+{
+  
+}).AddDefaultTokenProviders().AddEntityFrameworkStores<AppIdentityDbContext>();
+
+
 
 // seviside ayaða kaldýrmayý unutmayalým.
 builder.Services.AddScoped<PermissionFilterAttribute>();

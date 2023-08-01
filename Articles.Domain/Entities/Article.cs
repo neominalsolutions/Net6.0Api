@@ -21,6 +21,8 @@ namespace Articles.Domain.Entities
 
     private List<Comment> _comment = new List<Comment>();
 
+    //public string UserId { get; set; }
+
     // artık bu sınıf sadece dışarıdan erişelebilir oldu dışarıdan set edilemez
     public IReadOnlyList<Comment> Comments  => _comment;
 
