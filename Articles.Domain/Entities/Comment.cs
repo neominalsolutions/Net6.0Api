@@ -9,7 +9,13 @@ namespace Articles.Domain.Entities
 {
   public class Comment:ChildEntity<string>
   {
-   
+    public string Text { get; init; }
+    public string CommentBy { get; init; }
 
+    public Comment(string text, string commentBy)
+    {
+      this.Text = text;
+      this.CommentBy = commentBy;
+    }
   }
 }

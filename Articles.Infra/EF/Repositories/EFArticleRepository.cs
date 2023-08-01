@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,11 @@ namespace Articles.Infra.EF.Repositories
     {
     }
 
+    //public override List<Article> WhereList(Expression<Func<Article, bool>> expression = null)
+    //{
+    //  return this.dbSet.Include(x => x.Comments).ToList();
+    //}
+
     public Article FindArticleWithComments(string key)
     {
       var entity = dbSet.Include(x => x.Comments).FirstOrDefault(x => x.Id == key);
@@ -25,6 +31,11 @@ namespace Articles.Infra.EF.Repositories
         throw new Exception("find error");
 
       return entity;
+    }
+
+    public List<Article> FindArticleWithComments()
+    {
+      return this.dbSet.Include(x => x.Comments).ToList();
     }
   }
 }

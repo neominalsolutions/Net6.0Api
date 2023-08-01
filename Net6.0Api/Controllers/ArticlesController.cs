@@ -1,6 +1,7 @@
 ﻿using Articles.Application;
 using Articles.Application.Articles;
 using Articles.Application.Dtos;
+using Articles.Application.Features.Article.WithComments;
 using Articles.Domain.Entities;
 using Articles.Infra;
 using Articles.Infra.EF.Repositories;
@@ -29,11 +30,13 @@ namespace Net6._0Api.Controllers
 
     [HttpGet]
     // GET işlemlerinde IActionResult ile çalışırken apidan çıkan dönüş tiplerimizin swagger üzerinde schema olarak yansıması için kullanılan bir yöntem.
-    [ProducesResponseType(statusCode:StatusCodes.Status200OK, type: typeof(ArticleDto))]
-    public IActionResult Get()
+    [ProducesResponseType(statusCode:StatusCodes.Status200OK, type: typeof(ArticleWithCommentsDto))]
+    public async Task<IActionResult> Get()
     {
-      var model = new ArticleDto { Id = 1, Name = "Makale1", Description = "Açıklama1"};
-      return Ok(model);
+
+     var response = this.mediator.Send(new GetArticleQuery()).GetAwaiter().GetResult();
+
+      return Ok(response);
     }
 
     // api/articles/id (GET) -> 200 (OK)
@@ -53,6 +56,7 @@ namespace Net6._0Api.Controllers
 
       // db atıp kayıt.
 
+      // command
       var entityId = await this.mediator.Send(dto);
 
       //var service = new ArticleCreateService(new ArticleRepository());

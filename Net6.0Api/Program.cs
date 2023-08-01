@@ -1,11 +1,13 @@
 using Articles.Application.Dtos;
 using Articles.Application.Features.Article.Create;
+using Articles.Application.Mappings;
 using Articles.Core.EF;
 using Articles.Domain.Repositories;
 using Articles.Infra.EF.Contexts;
 using Articles.Infra.EF.Repositories;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Net6._0Api.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,9 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<LocalException>();
+
+// reflection ile application libden referanse al
+builder.Services.AddAutoMapper(typeof(ArticleMapping));
 
 builder.Services.AddMediatR(opt =>
 {

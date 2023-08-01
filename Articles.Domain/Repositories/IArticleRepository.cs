@@ -11,5 +11,6 @@ namespace Articles.Domain.Repositories
   public interface IArticleRepository:IRepository<Article,string>
   {
     Article FindArticleWithComments(string key);
+    List<Article> FindArticleWithComments();
   }
 }
