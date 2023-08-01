@@ -13,7 +13,6 @@ namespace Net6._0Api.Attributes
       // actiondan çıktıktan sonra loglama gibi durumlar için kullanırız.
     }
 
-
     // controller actiona girmeden önce kontrol et
 
     public void OnActionExecuting(ActionExecutingContext context)
