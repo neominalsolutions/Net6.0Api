@@ -6,6 +6,8 @@ using Articles.Domain.Entities;
 using Articles.Infra;
 using Articles.Infra.EF.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -15,6 +17,7 @@ namespace Net6._0Api.Controllers
 {
     [Route("api/[controller]")]
   [ApiController]
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
   public class ArticlesController : ControllerBase
   {
     private readonly IMediator mediator;
@@ -29,8 +32,10 @@ namespace Net6._0Api.Controllers
     // api/articles (GET)
 
     [HttpGet]
+    //[Authorize(AuthenticationSchemes = "Ali")]
     // GET işlemlerinde IActionResult ile çalışırken apidan çıkan dönüş tiplerimizin swagger üzerinde schema olarak yansıması için kullanılan bir yöntem.
     [ProducesResponseType(statusCode:StatusCodes.Status200OK, type: typeof(ArticleWithCommentsDto))]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Manager")]
     public async Task<IActionResult> Get()
     {
 
@@ -41,12 +46,14 @@ namespace Net6._0Api.Controllers
 
     // api/articles/id (GET) -> 200 (OK)
     [HttpGet("{id:int}")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "OnlyAdminPolicy")]
     public IActionResult Get(int id)
     {
       return StatusCode(StatusCodes.Status200OK,new {id = 1});
     }
 
     [HttpPost]
+    
     public async Task<IActionResult> Post([FromBody] ArticleCreateDto dto)
     {
 

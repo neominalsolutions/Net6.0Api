@@ -5,14 +5,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Net6._0Api</RootNamespace>
-    <UserSecretsId>09cdcb3f-8f3e-42a3-904d-84bbe6dc1831</UserSecretsId>
+    <UserSecretsId>75f45759-cecb-476c-8b9c-1e246b2113a9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="MediatR" Version="12.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.20">
       <PrivateAssets>all</PrivateAssets>
@@ -25,10 +24,6 @@
     <ProjectReference Include="..\Articles.Application\Articles.Application.csproj" />
     <ProjectReference Include="..\Articles.Domain\Articles.Domain.csproj" />
     <ProjectReference Include="..\Articles.Infra\Articles.Infra.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Consts\" />
   </ItemGroup>
 
 </Project>
